@@ -16,8 +16,22 @@ class Tarefa {
         if (this.descricao != undefined) {
             li.innerHTML += ` (${this.descricao})`;
         }
-        li.innerHTML += ` | ${this.horario}`;
+        li.innerHTML += ` | ${this.horario}  `;
+        const botaoCOMPL = document.createElement('button');
+        botaoCOMPL.innerHTML += "completar";
+        botaoCOMPL.addEventListener('click', () => {
+        });
+        li.appendChild(botaoCOMPL);
+        li.innerHTML += `  `;
+        const botaoDEL = document.createElement('button');
+        botaoDEL.innerHTML += "deletar";
+        botaoDEL.addEventListener('click', () => {
+        });
+        li.appendChild(botaoDEL);
         return li;
+    }
+    deletar() {
+        this.titulo = "";
     }
 }
 let Tarefas = [];

@@ -13,15 +13,37 @@ class Tarefa{
 
     criaTarefa() {
         const li = document.createElement('li');
+
+
         li.innerHTML=`<strong>${this.titulo}</strong>`
         if (this.descricao != undefined){
             li.innerHTML += ` (${this.descricao})`
         }
-        li.innerHTML += ` | ${this.horario}`
+        li.innerHTML += ` | ${this.horario}  `
+
+        const botaoCOMPL = document.createElement('button');
+        botaoCOMPL.innerHTML += "completar";
+        botaoCOMPL.addEventListener('click', () => {
+            
+        })
+        li.appendChild(botaoCOMPL);
+
+        li.innerHTML += `  `;
+
+        const botaoDEL = document.createElement('button');
+        botaoDEL.innerHTML += "deletar";
+        botaoDEL.addEventListener('click', () => {
+            
+        })
+        li.appendChild(botaoDEL);
+
         return li;
     }
-}
 
+    deletar (){
+    this.titulo = "";
+    }
+}
 
 let Tarefas: Tarefa[] = [];
 const json = JSON.parse(localStorage.getItem("lista_tarefas") || "[]");
@@ -60,6 +82,7 @@ btnAdicionar.addEventListener('click', () => {
     Tarefas.push(novaTarefa);
     localStorage.setItem("lista_tarefas", JSON.stringify(Tarefas));
 })
+
 
 //localStorage.setItem("lista_tarefas", JSON.stringify(Tarefas));
 

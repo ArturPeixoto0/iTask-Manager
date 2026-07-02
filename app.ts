@@ -1,12 +1,14 @@
 class Tarefa{
     titulo: string;
-    descricao?: string;
     horario: Date;
+    completa: boolean;
+    descricao?: string;
 
-    constructor(tituloTarefa: string, horarioCriacao:Date = new Date, descricaoTarefa?:string) {
+    constructor(tituloTarefa: string, horarioCriacao:Date = new Date,tarefaCompleta: boolean, descricaoTarefa?:string) {
         this.titulo = tituloTarefa;
-        this.descricao = descricaoTarefa;
         this.horario = horarioCriacao;
+        this.completa = tarefaCompleta;
+        this.descricao = descricaoTarefa;
     }
 
     criaTarefa() {
@@ -21,19 +23,45 @@ class Tarefa{
 }
 
 
-const btn = document.getElementById('addBtn') as HTMLButtonElement;
-btn.addEventListener('click', () => {
+let Tarefas: Tarefa[] = [];
+const json = JSON.parse(localStorage.getItem("lista_tarefas") || "[]");
+
+
+for (let i = 0; i<json.length; i++){
+    let aux = new Tarefa(
+    json[i].titulo,
+    new Date(json[i].horario),
+    json[i].completa,
+    json[i].descricao,
+    ) //o aux é composto pelo primeiro elemento do json
+    Tarefas.push(aux);
+}
+
+for(let i = 0; i<Tarefas.length; i++){
+    document.getElementById('listaTarefas')?.appendChild(Tarefas[i].criaTarefa());
+}
+
+
+const btnAdicionar = document.getElementById('addBtn') as HTMLButtonElement;
+btnAdicionar.addEventListener('click', () => {
     const inputT = document.getElementById('tituloInput') as HTMLInputElement;
     const inputD = document.getElementById('descricaoInput') as HTMLInputElement;
     const agora: Date = new Date;
-    let novaTarefa = new Tarefa("", agora); //se for consts ela n muda
+    let novaTarefa = new Tarefa("", agora, false); //se for consts ela n muda
     if (inputT.value === "" ) return; 
     if (inputD.value === ""){ 
-        novaTarefa = new Tarefa(inputT.value, agora);
+        novaTarefa = new Tarefa(inputT.value, agora, false);
     }
     else {
-        novaTarefa = new Tarefa(inputT.value, agora, inputD.value);
+        novaTarefa = new Tarefa(inputT.value, agora, false, inputD.value);
     }
-
     document.getElementById('listaTarefas')?.appendChild(novaTarefa.criaTarefa());
+
+    Tarefas.push(novaTarefa);
+    localStorage.setItem("lista_tarefas", JSON.stringify(Tarefas));
 })
+
+//localStorage.setItem("lista_tarefas", JSON.stringify(Tarefas));
+
+
+

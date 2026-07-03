@@ -5,7 +5,7 @@ function RemoveDaMemoria() {
             Tarefas.splice(i, 1);
             i--;
         }
-        if (Tarefas[i].completa === true) {
+        else if (Tarefas[i].completa === true) {
             Tarefas.splice(i, 1);
             i--;
         }

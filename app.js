@@ -48,7 +48,7 @@ class Tarefa {
         const botaoCOMPL = document.createElement('button');
         botaoCOMPL.innerHTML += "concluir";
         botaoCOMPL.addEventListener('click', () => {
-            li.style.display = "none";
+            li.remove();
             this.completar();
             document.getElementById('listaConcluidas')?.appendChild(this.criaConcluida());
             Concluidas.push(this);
@@ -59,7 +59,7 @@ class Tarefa {
         const botaoDEL = document.createElement('button');
         botaoDEL.innerHTML += "deletar";
         botaoDEL.addEventListener('click', () => {
-            li.style.display = "none";
+            li.remove();
             this.deletar();
             RemoveDaMemoria();
         });
@@ -80,15 +80,11 @@ class Tarefa {
         const botaoDEL = document.createElement('button');
         botaoDEL.innerHTML += "deletar";
         botaoDEL.addEventListener('click', () => {
-            li.style.display = "none";
+            li.remove();
             this.deletar();
             RemoveDaMemoria();
         });
         li.appendChild(botaoDEL);
-        const dellALL = document.getElementById('btnDelALL');
-        dellALL.addEventListener('click', () => {
-            botaoDEL.click();
-        });
         return li;
     }
 }
@@ -96,12 +92,12 @@ let jsonT = JSON.parse(localStorage.getItem("lista_tarefas") || "[]");
 let jsonC = JSON.parse(localStorage.getItem("lista_concluidas") || "[]");
 let Tarefas = [];
 for (let i = 0; i < jsonT.length; i++) {
-    let auxT = new Tarefa(jsonT[i].titulo, new Date(jsonT[i].horario), jsonT[i].descricao); //o aux é composto pelo primeiro elemento do json
+    let auxT = new Tarefa(jsonT[i].titulo, new Date(jsonT[i].horario), jsonT[i].descricao, jsonT[i].completa, jsonT[i].deletada); //o aux é composto pelo primeiro elemento do json
     Tarefas.push(auxT);
 }
 let Concluidas = [];
 for (let i = 0; i < jsonC.length; i++) {
-    let auxC = new Tarefa(jsonC[i].titulo, new Date(jsonC[i].horario), jsonC[i].descricao, jsonC[i].completa); //o aux é composto pelo elemento i do json
+    let auxC = new Tarefa(jsonC[i].titulo, new Date(jsonC[i].horario), jsonC[i].descricao, jsonC[i].completa, jsonC[i].deletada); //o aux é composto pelo elemento i do json
     Concluidas.push(auxC);
 }
 for (let i = 0; i < Tarefas.length; i++) {
@@ -119,8 +115,9 @@ btnAdicionar.addEventListener('click', () => {
     const inputT = document.getElementById('tituloInput');
     const inputD = document.getElementById('descricaoInput');
     const agora = new Date;
-    if (inputT.value === "")
+    if (inputT.value === "") {
         return;
+    }
     let novaTarefa = new Tarefa("", agora); //se for const ela nao muda
     if (inputD.value === "") {
         novaTarefa = new Tarefa(inputT.value, agora);
@@ -132,16 +129,14 @@ btnAdicionar.addEventListener('click', () => {
     Tarefas.push(novaTarefa);
     localStorage.setItem("lista_tarefas", JSON.stringify(Tarefas));
 });
-const btnDelALL = document.getElementById('btnDelALL');
-btnDelALL.addEventListener('click', () => {
-    for (let i = 0; i < Tarefas.length; i++) {
-        Tarefas[i].criaTarefa().style.display = "none";
-        Tarefas[i].deletar();
-        RemoveDaMemoria();
+const dellALL = document.getElementById('btnDelALL');
+dellALL.addEventListener('click', () => {
+    let ListaT = document.getElementById('listaTarefas');
+    let ListaC = document.getElementById('listaConcluidas');
+    if (ListaT != null) {
+        ListaT.innerHTML = "";
     }
-    for (let i = 0; i < Concluidas.length; i++) {
-        Concluidas[i].criaConcluida().style.display = "none";
-        Concluidas[i].deletar();
-        RemoveDaMemoria();
+    if (ListaC != null) {
+        ListaC.innerHTML = "";
     }
 });

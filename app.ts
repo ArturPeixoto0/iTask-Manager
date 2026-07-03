@@ -58,7 +58,7 @@ class Tarefa{
         const botaoCOMPL = document.createElement('button') as HTMLButtonElement;
         botaoCOMPL.innerHTML += "concluir";
         botaoCOMPL.addEventListener('click', () => {
-            li.style.display = "none";
+            li.remove();
             this.completar();
             document.getElementById('listaConcluidas')?.appendChild(this.criaConcluida());
             Concluidas.push(this);
@@ -70,7 +70,7 @@ class Tarefa{
         const botaoDEL = document.createElement('button') as HTMLButtonElement;
         botaoDEL.innerHTML += "deletar";
         botaoDEL.addEventListener('click', () => {
-            li.style.display = "none"; 
+            li.remove(); 
             this.deletar();
             RemoveDaMemoria();
         })
@@ -98,16 +98,12 @@ class Tarefa{
         const botaoDEL = document.createElement('button');
         botaoDEL.innerHTML += "deletar";
         botaoDEL.addEventListener('click', () => {
-            li.style.display = "none"; 
+            li.remove(); 
             this.deletar();
             RemoveDaMemoria();
         })
         li.appendChild(botaoDEL);
 
-        const dellALL = document.getElementById('btnDelALL') as HTMLButtonElement;
-        dellALL.addEventListener('click', () => {
-            botaoDEL.click();            
-        })
 
         return li;
     }
@@ -124,6 +120,8 @@ for (let i = 0; i<jsonT.length; i++){
     jsonT[i].titulo,
     new Date(jsonT[i].horario),
     jsonT[i].descricao,
+    jsonT[i].completa,
+    jsonT[i].deletada,
     ) //o aux é composto pelo primeiro elemento do json
     Tarefas.push(auxT);
 }
@@ -136,6 +134,7 @@ for (let i = 0; i<jsonC.length; i++){
     new Date(jsonC[i].horario),
     jsonC[i].descricao,
     jsonC[i].completa,
+    jsonC[i].deletada,
     ) //o aux é composto pelo elemento i do json
     Concluidas.push(auxC);
 }
@@ -159,7 +158,9 @@ btnAdicionar.addEventListener('click', () => {
     const inputD = document.getElementById('descricaoInput') as HTMLInputElement;
     const agora: Date = new Date;
 
-    if (inputT.value === "" ) return; 
+    if (inputT.value === ""){
+        return; 
+    }
     
     let novaTarefa = new Tarefa("", agora); //se for const ela nao muda
     
@@ -175,20 +176,20 @@ btnAdicionar.addEventListener('click', () => {
     localStorage.setItem("lista_tarefas", JSON.stringify(Tarefas));
 })
 
+const dellALL = document.getElementById('btnDelALL') as HTMLButtonElement;
+dellALL.addEventListener('click', () => {
+    let ListaT = document.getElementById('listaTarefas') as HTMLLIElement;
+    let ListaC = document.getElementById('listaConcluidas') as HTMLLIElement;
 
-const btnDelALL = document.getElementById('btnDelALL') as HTMLButtonElement;
-btnDelALL.addEventListener('click', () => {
-    for(let i =0; i<Tarefas.length; i++){
-        Tarefas[i].criaTarefa().style.display = "none"; 
-        Tarefas[i].deletar();
-        RemoveDaMemoria();
+    if (ListaT != null){
+        ListaT.innerHTML = "";
     }
-    for(let i =0; i<Concluidas.length; i++){
-        Concluidas[i].criaConcluida().style.display = "none";
-        Concluidas[i].deletar();
-        RemoveDaMemoria();
+    if (ListaC != null){
+        ListaC.innerHTML = "";
     }
+               
 })
+
 
 
 

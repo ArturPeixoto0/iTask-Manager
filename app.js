@@ -64,6 +64,10 @@ class Tarefa {
             RemoveDaMemoria();
         });
         li.appendChild(botaoDEL);
+        const dellALL = document.getElementById('btnDelALL');
+        dellALL.addEventListener('click', () => {
+            botaoDEL.click();
+        });
         return li;
     }
     criaConcluida() {
@@ -81,6 +85,10 @@ class Tarefa {
             RemoveDaMemoria();
         });
         li.appendChild(botaoDEL);
+        const dellALL = document.getElementById('btnDelALL');
+        dellALL.addEventListener('click', () => {
+            botaoDEL.click();
+        });
         return li;
     }
 }
@@ -126,8 +134,14 @@ btnAdicionar.addEventListener('click', () => {
 });
 const btnDelALL = document.getElementById('btnDelALL');
 btnDelALL.addEventListener('click', () => {
-    Tarefas.splice(0, Tarefas.length);
-    Concluidas.splice(0, Concluidas.length);
-    jsonT = "[]";
-    jsonC = "[]";
+    for (let i = 0; i < Tarefas.length; i++) {
+        Tarefas[i].criaTarefa().style.display = "none";
+        Tarefas[i].deletar();
+        RemoveDaMemoria();
+    }
+    for (let i = 0; i < Concluidas.length; i++) {
+        Concluidas[i].criaConcluida().style.display = "none";
+        Concluidas[i].deletar();
+        RemoveDaMemoria();
+    }
 });

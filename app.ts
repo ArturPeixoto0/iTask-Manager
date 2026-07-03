@@ -43,9 +43,9 @@ class Tarefa{
         this.deletada = true;
     }
 
+
     criaTarefa() {
         const li = document.createElement('li') as HTMLLIElement;
-
 
         li.innerHTML=`<strong>${this.titulo}</strong>`
 
@@ -76,12 +76,15 @@ class Tarefa{
         })
         li.appendChild(botaoDEL);
 
+        const dellALL = document.getElementById('btnDelALL') as HTMLButtonElement;
+        dellALL.addEventListener('click', () => {
+            botaoDEL.click();            
+        })
 
         return li;
     }
 
     criaConcluida(){
-
         const li = document.createElement('li') as HTMLLIElement;
 
         li.innerHTML=`<strong>${this.titulo}</strong>`
@@ -101,10 +104,14 @@ class Tarefa{
         })
         li.appendChild(botaoDEL);
 
+        const dellALL = document.getElementById('btnDelALL') as HTMLButtonElement;
+        dellALL.addEventListener('click', () => {
+            botaoDEL.click();            
+        })
 
         return li;
-        
     }
+
 }
 
 let jsonT = JSON.parse(localStorage.getItem("lista_tarefas") || "[]");
@@ -169,6 +176,19 @@ btnAdicionar.addEventListener('click', () => {
 })
 
 
+const btnDelALL = document.getElementById('btnDelALL') as HTMLButtonElement;
+btnDelALL.addEventListener('click', () => {
+    for(let i =0; i<Tarefas.length; i++){
+        Tarefas[i].criaTarefa().style.display = "none"; 
+        Tarefas[i].deletar();
+        RemoveDaMemoria();
+    }
+    for(let i =0; i<Concluidas.length; i++){
+        Concluidas[i].criaConcluida().style.display = "none";
+        Concluidas[i].deletar();
+        RemoveDaMemoria();
+    }
+})
 
 
 

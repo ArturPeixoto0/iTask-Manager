@@ -28,7 +28,8 @@ header {
 }
 
 header h2{
-    margin: 5px;
+    color: antiquewhite;
+    margin: 15px;
 }
 
 header input{
@@ -48,13 +49,11 @@ li {
     list-style-type: none;
 }
 
-.container {
-    padding: 15px;
-}
-
 .Listas {
     display: flex;
     justify-content: center; 
+    padding: 15px;
+    align-items: start;
 }
 
 
@@ -84,6 +83,7 @@ li {
     border: 1px solid black;
     border-radius: 100%;
     background-color: rgb(255, 0, 0);
+    margin-left: 5px;
 }
 
 .Conc{
@@ -106,6 +106,7 @@ li {
     border: 1px solid black;
     border-radius: 100%;
     background-color: rgb(255, 0, 0);
+    margin-left: 5px;
 }
 
 footer {
@@ -113,6 +114,13 @@ footer {
     align-items: center;
     justify-content: center; 
     text-align: center;
+    position:sticky;
+
+    padding: 10px;
+    background-color: rgb( 139, 69, 19);
+
+    bottom: 0;
+    left: 50%;
 }
 
 

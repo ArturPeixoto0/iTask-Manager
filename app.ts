@@ -63,7 +63,9 @@ class Tarefa{
 
         textoTarefa.innerHTML=` <strong>${this.titulo}</strong>`
 
-        textoTarefa.innerHTML += ` | ${this.horario}    `
+        if (this.descricao != undefined){
+            textoTarefa.innerHTML += ` | (${this.descricao})`
+        }
 
         li.appendChild(textoTarefa);
 
@@ -77,11 +79,10 @@ class Tarefa{
         li.appendChild(botaoDEL);
 
 
-        const textoDescricao = document.createElement('span');
-        if (this.descricao != undefined){
-            textoDescricao.innerHTML += `<br>(${this.descricao})<br>`
-            li.appendChild(textoDescricao);
-        }
+        const textoHora = document.createElement('span');
+        textoHora.innerHTML += `<br>${this.horario}<br>`
+        li.appendChild(textoHora);
+        
 
 
 
@@ -114,7 +115,9 @@ class Tarefa{
 
         textoTarefa.innerHTML=` <strong>${this.titulo}</strong>`
 
-        textoTarefa.innerHTML += ` | ${this.horario}    `
+        if (this.descricao != undefined){
+            textoTarefa.innerHTML += ` | (${this.descricao})`
+        }
 
         li.appendChild(textoTarefa);
 
@@ -128,11 +131,10 @@ class Tarefa{
         li.appendChild(botaoDEL);
 
 
-        const textoDescricao = document.createElement('span');
-        if (this.descricao != undefined){
-            textoDescricao.innerHTML += `<br>(${this.descricao})<br>`
-            li.appendChild(textoDescricao);
-        }
+        const textoHora = document.createElement('span');
+        textoHora.innerHTML += `<br>${this.horario}<br>`
+        li.appendChild(textoHora);
+        
 
 
 

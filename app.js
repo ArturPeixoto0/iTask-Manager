@@ -53,7 +53,9 @@ class Tarefa {
         li.appendChild(checkCOMPL);
         const textoTarefa = document.createElement('span');
         textoTarefa.innerHTML = ` <strong>${this.titulo}</strong>`;
-        textoTarefa.innerHTML += ` | ${this.horario}    `;
+        if (this.descricao != undefined) {
+            textoTarefa.innerHTML += ` | (${this.descricao})`;
+        }
         li.appendChild(textoTarefa);
         const botaoDEL = document.createElement('button');
         botaoDEL.innerHTML += "X";
@@ -63,11 +65,9 @@ class Tarefa {
             RemoveDaMemoria();
         });
         li.appendChild(botaoDEL);
-        const textoDescricao = document.createElement('span');
-        if (this.descricao != undefined) {
-            textoDescricao.innerHTML += `<br>(${this.descricao})<br>`;
-            li.appendChild(textoDescricao);
-        }
+        const textoHora = document.createElement('span');
+        textoHora.innerHTML += `<br>${this.horario}<br>`;
+        li.appendChild(textoHora);
         const dellALL = document.getElementById('btnDelALL');
         dellALL.addEventListener('click', () => {
             botaoDEL.click();
@@ -90,7 +90,9 @@ class Tarefa {
         li.appendChild(checkDESCOMPL);
         const textoTarefa = document.createElement('span');
         textoTarefa.innerHTML = ` <strong>${this.titulo}</strong>`;
-        textoTarefa.innerHTML += ` | ${this.horario}    `;
+        if (this.descricao != undefined) {
+            textoTarefa.innerHTML += ` | (${this.descricao})`;
+        }
         li.appendChild(textoTarefa);
         const botaoDEL = document.createElement('button');
         botaoDEL.innerHTML += "X";
@@ -100,11 +102,9 @@ class Tarefa {
             RemoveDaMemoria();
         });
         li.appendChild(botaoDEL);
-        const textoDescricao = document.createElement('span');
-        if (this.descricao != undefined) {
-            textoDescricao.innerHTML += `<br>(${this.descricao})<br>`;
-            li.appendChild(textoDescricao);
-        }
+        const textoHora = document.createElement('span');
+        textoHora.innerHTML += `<br>${this.horario}<br>`;
+        li.appendChild(textoHora);
         const dellALL = document.getElementById('btnDelALL');
         dellALL.addEventListener('click', () => {
             botaoDEL.click();

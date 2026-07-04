@@ -193,7 +193,13 @@ btnAdicionar.addEventListener('click', () => {
     const inputT = document.getElementById('tituloInput') as HTMLInputElement;
     const inputD = document.getElementById('descricaoInput') as HTMLInputElement;
     const data: Date = new Date;
-    const agora: string = `${data.getDate()}/${data.getMonth()+1}/${data.getFullYear()} às ${data.toLocaleTimeString('pt-BR')}`;
+    const dia: number = data.getDate();
+    const mes: number = data.getMonth() +1;
+    const ano: number = data.getFullYear();
+    const diaCZ: string = dia.toString().padStart(2, '0');
+    const mesCZ: string = mes.toString().padStart(2, '0');
+
+    const agora: string = `${diaCZ}/${mesCZ}/${ano} às ${data.toLocaleTimeString('pt-BR')}`;
 
     if (inputT.value === ""){
         return; 

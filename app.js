@@ -139,7 +139,12 @@ btnAdicionar.addEventListener('click', () => {
     const inputT = document.getElementById('tituloInput');
     const inputD = document.getElementById('descricaoInput');
     const data = new Date;
-    const agora = `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()} às ${data.toLocaleTimeString('pt-BR')}`;
+    const dia = data.getDate();
+    const mes = data.getMonth() + 1;
+    const ano = data.getFullYear();
+    const diaCZ = dia.toString().padStart(2, '0');
+    const mesCZ = mes.toString().padStart(2, '0');
+    const agora = `${diaCZ}/${mesCZ}/${ano} às ${data.toLocaleTimeString('pt-BR')}`;
     if (inputT.value === "") {
         return;
     }

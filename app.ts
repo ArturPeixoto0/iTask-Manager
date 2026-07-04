@@ -22,12 +22,12 @@ function RemoveDaMemoria() {
 
 class Tarefa{
     titulo: string;
-    horario: Date;
+    horario: string;
     completa: boolean;
     deletada: boolean;
     descricao?: string;
 
-    constructor(tituloTarefa: string, horarioCriacao:Date = new Date, descricaoTarefa?:string, concluida: boolean = false,apagada: boolean = false) {
+    constructor(tituloTarefa: string, horarioCriacao:string, descricaoTarefa?:string, concluida: boolean = false,apagada: boolean = false) {
         this.titulo = tituloTarefa;
         this.horario = horarioCriacao;
         this.completa = concluida;
@@ -47,17 +47,9 @@ class Tarefa{
     criaTarefa() {
         const li = document.createElement('li') as HTMLLIElement;
 
-        li.innerHTML=`<strong>${this.titulo}</strong>`
-
-        li.innerHTML += ` | ${this.horario}  <br>`
-
-        if (this.descricao != undefined){
-            li.innerHTML += `(${this.descricao})<br>`
-        }
-
-        const botaoCOMPL = document.createElement('button') as HTMLButtonElement;
-        botaoCOMPL.innerHTML += "concluir";
-        botaoCOMPL.addEventListener('click', () => {
+        const checkCOMPL = document.createElement('input') as HTMLInputElement;
+        checkCOMPL.type = 'checkbox';
+        checkCOMPL.addEventListener('change', () => {
             li.remove();
             this.completar();
             document.getElementById('listaConcluidas')?.appendChild(this.criaConcluida());
@@ -65,16 +57,33 @@ class Tarefa{
             localStorage.setItem("lista_concluidas", JSON.stringify(Concluidas));
             RemoveDaMemoria();
         })
-        li.appendChild(botaoCOMPL);
+        li.appendChild(checkCOMPL);
+
+        const textoTarefa = document.createElement('span');
+
+        textoTarefa.innerHTML=` <strong>${this.titulo}</strong>`
+
+        textoTarefa.innerHTML += ` | ${this.horario}    `
+
+        li.appendChild(textoTarefa);
 
         const botaoDEL = document.createElement('button') as HTMLButtonElement;
-        botaoDEL.innerHTML += "deletar";
+        botaoDEL.innerHTML += "X";
         botaoDEL.addEventListener('click', () => {
             li.remove(); 
             this.deletar();
             RemoveDaMemoria();
         })
         li.appendChild(botaoDEL);
+
+
+        const textoDescricao = document.createElement('span');
+        if (this.descricao != undefined){
+            textoDescricao.innerHTML += `<br>(${this.descricao})<br>`
+            li.appendChild(textoDescricao);
+        }
+
+
 
         const dellALL = document.getElementById('btnDelALL') as HTMLButtonElement;
         dellALL.addEventListener('click', () => {
@@ -87,16 +96,30 @@ class Tarefa{
     criaConcluida(){
         const li = document.createElement('li') as HTMLLIElement;
 
-        li.innerHTML=`<strong>${this.titulo}</strong>`
+        const checkDESCOMPL = document.createElement('input') as HTMLInputElement;
+        checkDESCOMPL.type = 'checkbox';
+        checkDESCOMPL.checked = true;
+        checkDESCOMPL.addEventListener('change', () => {
+            li.remove();
+            this.completa = false;
+            document.getElementById('listaTarefas')?.appendChild(this.criaTarefa());
+            Tarefas.push(this);
+            localStorage.setItem("lista_tarefas", JSON.stringify(Tarefas));
+            RemoveDaMemoria();
+        })
+        li.appendChild(checkDESCOMPL);
 
-        li.innerHTML += ` | ${this.horario}  <br>`
 
-        if (this.descricao != undefined){
-            li.innerHTML += `(${this.descricao})<br>`
-        }
+        const textoTarefa = document.createElement('span');
 
-        const botaoDEL = document.createElement('button');
-        botaoDEL.innerHTML += "deletar";
+        textoTarefa.innerHTML=` <strong>${this.titulo}</strong>`
+
+        textoTarefa.innerHTML += ` | ${this.horario}    `
+
+        li.appendChild(textoTarefa);
+
+        const botaoDEL = document.createElement('button') as HTMLButtonElement;
+        botaoDEL.innerHTML += "X";
         botaoDEL.addEventListener('click', () => {
             li.remove(); 
             this.deletar();
@@ -104,6 +127,19 @@ class Tarefa{
         })
         li.appendChild(botaoDEL);
 
+
+        const textoDescricao = document.createElement('span');
+        if (this.descricao != undefined){
+            textoDescricao.innerHTML += `<br>(${this.descricao})<br>`
+            li.appendChild(textoDescricao);
+        }
+
+
+
+        const dellALL = document.getElementById('btnDelALL') as HTMLButtonElement;
+        dellALL.addEventListener('click', () => {
+            botaoDEL.click();            
+        })
 
         return li;
     }
@@ -118,7 +154,7 @@ let Tarefas: Tarefa[] = [];
 for (let i = 0; i<jsonT.length; i++){
     let auxT = new Tarefa(
     jsonT[i].titulo,
-    new Date(jsonT[i].horario),
+    jsonT[i].horario,
     jsonT[i].descricao,
     jsonT[i].completa,
     jsonT[i].deletada,
@@ -131,7 +167,7 @@ let Concluidas: Tarefa[] = [];
 for (let i = 0; i<jsonC.length; i++){
     let auxC = new Tarefa(
     jsonC[i].titulo,
-    new Date(jsonC[i].horario),
+    jsonC[i].horario,
     jsonC[i].descricao,
     jsonC[i].completa,
     jsonC[i].deletada,
@@ -156,7 +192,8 @@ const btnAdicionar = document.getElementById('addBtn') as HTMLButtonElement;
 btnAdicionar.addEventListener('click', () => {
     const inputT = document.getElementById('tituloInput') as HTMLInputElement;
     const inputD = document.getElementById('descricaoInput') as HTMLInputElement;
-    const agora: Date = new Date;
+    const data: Date = new Date;
+    const agora: string = `${data.getDate()}/${data.getMonth()+1}/${data.getFullYear()} às ${data.toLocaleTimeString('pt-BR')}`;
 
     if (inputT.value === ""){
         return; 

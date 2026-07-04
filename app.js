@@ -25,7 +25,7 @@ class Tarefa {
     completa;
     deletada;
     descricao;
-    constructor(tituloTarefa, horarioCriacao = new Date, descricaoTarefa, concluida = false, apagada = false) {
+    constructor(tituloTarefa, horarioCriacao, descricaoTarefa, concluida = false, apagada = false) {
         this.titulo = tituloTarefa;
         this.horario = horarioCriacao;
         this.completa = concluida;
@@ -40,14 +40,9 @@ class Tarefa {
     }
     criaTarefa() {
         const li = document.createElement('li');
-        li.innerHTML = `<strong>${this.titulo}</strong>`;
-        li.innerHTML += ` | ${this.horario}  <br>`;
-        if (this.descricao != undefined) {
-            li.innerHTML += `(${this.descricao})<br>`;
-        }
-        const botaoCOMPL = document.createElement('button');
-        botaoCOMPL.innerHTML += "concluir";
-        botaoCOMPL.addEventListener('click', () => {
+        const checkCOMPL = document.createElement('input');
+        checkCOMPL.type = 'checkbox';
+        checkCOMPL.addEventListener('change', () => {
             li.remove();
             this.completar();
             document.getElementById('listaConcluidas')?.appendChild(this.criaConcluida());
@@ -55,15 +50,24 @@ class Tarefa {
             localStorage.setItem("lista_concluidas", JSON.stringify(Concluidas));
             RemoveDaMemoria();
         });
-        li.appendChild(botaoCOMPL);
+        li.appendChild(checkCOMPL);
+        const textoTarefa = document.createElement('span');
+        textoTarefa.innerHTML = ` <strong>${this.titulo}</strong>`;
+        textoTarefa.innerHTML += ` | ${this.horario}    `;
+        li.appendChild(textoTarefa);
         const botaoDEL = document.createElement('button');
-        botaoDEL.innerHTML += "deletar";
+        botaoDEL.innerHTML += "X";
         botaoDEL.addEventListener('click', () => {
             li.remove();
             this.deletar();
             RemoveDaMemoria();
         });
         li.appendChild(botaoDEL);
+        const textoDescricao = document.createElement('span');
+        if (this.descricao != undefined) {
+            textoDescricao.innerHTML += `<br>(${this.descricao})<br>`;
+            li.appendChild(textoDescricao);
+        }
         const dellALL = document.getElementById('btnDelALL');
         dellALL.addEventListener('click', () => {
             botaoDEL.click();
@@ -72,19 +76,39 @@ class Tarefa {
     }
     criaConcluida() {
         const li = document.createElement('li');
-        li.innerHTML = `<strong>${this.titulo}</strong>`;
-        li.innerHTML += ` | ${this.horario}  <br>`;
-        if (this.descricao != undefined) {
-            li.innerHTML += `(${this.descricao})<br>`;
-        }
+        const checkDESCOMPL = document.createElement('input');
+        checkDESCOMPL.type = 'checkbox';
+        checkDESCOMPL.checked = true;
+        checkDESCOMPL.addEventListener('change', () => {
+            li.remove();
+            this.completa = false;
+            document.getElementById('listaTarefas')?.appendChild(this.criaTarefa());
+            Tarefas.push(this);
+            localStorage.setItem("lista_tarefas", JSON.stringify(Tarefas));
+            RemoveDaMemoria();
+        });
+        li.appendChild(checkDESCOMPL);
+        const textoTarefa = document.createElement('span');
+        textoTarefa.innerHTML = ` <strong>${this.titulo}</strong>`;
+        textoTarefa.innerHTML += ` | ${this.horario}    `;
+        li.appendChild(textoTarefa);
         const botaoDEL = document.createElement('button');
-        botaoDEL.innerHTML += "deletar";
+        botaoDEL.innerHTML += "X";
         botaoDEL.addEventListener('click', () => {
             li.remove();
             this.deletar();
             RemoveDaMemoria();
         });
         li.appendChild(botaoDEL);
+        const textoDescricao = document.createElement('span');
+        if (this.descricao != undefined) {
+            textoDescricao.innerHTML += `<br>(${this.descricao})<br>`;
+            li.appendChild(textoDescricao);
+        }
+        const dellALL = document.getElementById('btnDelALL');
+        dellALL.addEventListener('click', () => {
+            botaoDEL.click();
+        });
         return li;
     }
 }
@@ -92,12 +116,12 @@ let jsonT = JSON.parse(localStorage.getItem("lista_tarefas") || "[]");
 let jsonC = JSON.parse(localStorage.getItem("lista_concluidas") || "[]");
 let Tarefas = [];
 for (let i = 0; i < jsonT.length; i++) {
-    let auxT = new Tarefa(jsonT[i].titulo, new Date(jsonT[i].horario), jsonT[i].descricao, jsonT[i].completa, jsonT[i].deletada); //o aux é composto pelo primeiro elemento do json
+    let auxT = new Tarefa(jsonT[i].titulo, jsonT[i].horario, jsonT[i].descricao, jsonT[i].completa, jsonT[i].deletada); //o aux é composto pelo primeiro elemento do json
     Tarefas.push(auxT);
 }
 let Concluidas = [];
 for (let i = 0; i < jsonC.length; i++) {
-    let auxC = new Tarefa(jsonC[i].titulo, new Date(jsonC[i].horario), jsonC[i].descricao, jsonC[i].completa, jsonC[i].deletada); //o aux é composto pelo elemento i do json
+    let auxC = new Tarefa(jsonC[i].titulo, jsonC[i].horario, jsonC[i].descricao, jsonC[i].completa, jsonC[i].deletada); //o aux é composto pelo elemento i do json
     Concluidas.push(auxC);
 }
 for (let i = 0; i < Tarefas.length; i++) {
@@ -114,7 +138,8 @@ const btnAdicionar = document.getElementById('addBtn');
 btnAdicionar.addEventListener('click', () => {
     const inputT = document.getElementById('tituloInput');
     const inputD = document.getElementById('descricaoInput');
-    const agora = new Date;
+    const data = new Date;
+    const agora = `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()} às ${data.toLocaleTimeString('pt-BR')}`;
     if (inputT.value === "") {
         return;
     }

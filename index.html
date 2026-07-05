@@ -7,9 +7,42 @@
 
     <script src="app.js" defer></script>
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Biblioteca momentJS que facilita a optenção do momento exato -->
 
 </head>
+
+<header>
+<h2>iTask-Manager</h2>
+
+    <input type="text" id="tituloInput" placeholder="Digite o Título da tarefa">
+    <input type="text" id="descricaoInput" placeholder="Digite o Descrição da tarefa">
+    <button id="addBtn">Adicionar</button>
+
+</header>
+
+
 <body>
-    
+    <div class="Listas"> 
+        <div class="Tarf">
+            <h3>Tarefas:</h3>
+            <ul id="listaTarefas">
+            </ul>
+        </div>
+
+        <div class="Conc">
+            <h3>Concluídas:</h3>
+            <ul id="listaConcluidas">
+            </ul>
+        </div>
+
+        
+        </div>
+    </div>
 </body>
+
+<footer>
+    <button id="btnDelALL">APAGAR TUDO</button>
+</footer>
+
 </html>

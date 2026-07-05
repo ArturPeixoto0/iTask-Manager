@@ -67,11 +67,13 @@ li {
     margin: 10px;
 
     justify-content: center; 
-    text-align: center;
 }
 .Tarf h3 {
-    text-align: center;
-    
+    text-align: center; 
+}
+
+.Tarf input {
+    margin-right: 5px;;
 }
 
 .Tarf button {
@@ -94,7 +96,14 @@ li {
     margin: 10px;
 
     justify-content: center; 
-    text-align: center;
+}
+
+.Conc h3 {
+    text-align: center; 
+}
+
+.Conc input {
+    margin-right: 5px;;
 }
 
 .Conc button {

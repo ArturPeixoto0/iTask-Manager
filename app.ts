@@ -64,7 +64,7 @@ class Tarefa{
         textoTarefa.innerHTML=` <strong>${this.titulo}</strong>`
 
         if (this.descricao != undefined){
-            textoTarefa.innerHTML += ` | (${this.descricao})`
+            textoTarefa.innerHTML += ` | ${this.descricao}`
         }
 
         li.appendChild(textoTarefa);
@@ -116,7 +116,7 @@ class Tarefa{
         textoTarefa.innerHTML=` <strong>${this.titulo}</strong>`
 
         if (this.descricao != undefined){
-            textoTarefa.innerHTML += ` | (${this.descricao})`
+            textoTarefa.innerHTML += ` | ${this.descricao}`
         }
 
         li.appendChild(textoTarefa);

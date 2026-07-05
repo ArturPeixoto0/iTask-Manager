@@ -54,7 +54,7 @@ class Tarefa {
         const textoTarefa = document.createElement('span');
         textoTarefa.innerHTML = ` <strong>${this.titulo}</strong>`;
         if (this.descricao != undefined) {
-            textoTarefa.innerHTML += ` | (${this.descricao})`;
+            textoTarefa.innerHTML += ` | ${this.descricao}`;
         }
         li.appendChild(textoTarefa);
         const botaoDEL = document.createElement('button');
@@ -91,7 +91,7 @@ class Tarefa {
         const textoTarefa = document.createElement('span');
         textoTarefa.innerHTML = ` <strong>${this.titulo}</strong>`;
         if (this.descricao != undefined) {
-            textoTarefa.innerHTML += ` | (${this.descricao})`;
+            textoTarefa.innerHTML += ` | ${this.descricao}`;
         }
         li.appendChild(textoTarefa);
         const botaoDEL = document.createElement('button');
